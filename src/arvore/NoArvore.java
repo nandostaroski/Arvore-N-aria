@@ -4,8 +4,8 @@ public class NoArvore {
 	private int info;
 	private NoArvore prim;
 	private NoArvore prox;
-	
-	public NoArvore(int info){
+
+	public NoArvore(int info) {
 		this.info = info;
 		this.prim = null;
 		this.prox = null;
@@ -39,5 +39,5 @@ public class NoArvore {
 	public String toString() {
 		return "NoArvore [info=" + info + "]";
 	}
-	
+
 }

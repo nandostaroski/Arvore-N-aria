@@ -27,14 +27,14 @@ public class Arvore {
 	private String imprime(NoArvore noRaiz) {
 		String s = new String("");
 		s += "<";
-		if (noRaiz != null) {
-			s += noRaiz.getInfo();
-			NoArvore noAtual = noRaiz.getPrim();
-			while (noAtual != null) {
-				s += imprime(noAtual);
-				noAtual = noAtual.getProx();
-			}
+
+		s += noRaiz.getInfo();
+		NoArvore noAtual = noRaiz.getPrim();
+		while (noAtual != null) {
+			s += imprime(noAtual);
+			noAtual = noAtual.getProx();
 		}
+
 		s += ">";
 		return s;
 	}
@@ -44,10 +44,17 @@ public class Arvore {
 	}
 
 	private boolean pertence(NoArvore no, int info) {
-		if (no == null)
-			return false;
+		if (no.getInfo() == info)
+			return true;
 
-		return no.getInfo() == info || pertence(no.getPrim(), info) || pertence(no.getProx(), info);
+		NoArvore noAtual = no.getPrim();
+		while (noAtual != null) {
+			if (pertence(noAtual, info)) {
+				return true;
+			}
+			noAtual = noAtual.getProx();
+		}
+		return false;
 	}
 
 	public int altura() {
@@ -56,14 +63,12 @@ public class Arvore {
 
 	private int altura(NoArvore no) {
 		int alturaMax = -1;
-		if (no == null)
-			return alturaMax;
-
 		NoArvore noAtual = no.getPrim();
+
 		while (noAtual != null) {
-			int altura = altura(noAtual);
-			if (altura > alturaMax) {
-				alturaMax = altura;
+			int alturaAtual = altura(noAtual);
+			if (alturaAtual > alturaMax) {
+				alturaMax = alturaAtual;
 			}
 			noAtual = noAtual.getProx();
 		}
@@ -76,8 +81,7 @@ public class Arvore {
 	}
 
 	private int pares(NoArvore no) {
-		if (no == null)
-			return 0;
+
 		int soma = no.getInfo() % 2 == 0 ? 1 : 0;
 		NoArvore noAtual = no.getPrim();
 		while (noAtual != null) {
@@ -92,8 +96,6 @@ public class Arvore {
 	}
 
 	private int folhas(NoArvore no) {
-		if (no == null)
-			return 0;
 
 		if (no.getPrim() == null)
 			return 1;
@@ -112,11 +114,6 @@ public class Arvore {
 	}
 
 	private boolean igual(NoArvore no1, NoArvore no2) {
-		if (no1 == null && no2 == null)
-			return true;
-
-		if (no1 == null || no2 == null)
-			return false;
 
 		boolean igual = true;
 		NoArvore noAtual1 = no1.getPrim();
@@ -141,19 +138,17 @@ public class Arvore {
 	}
 
 	private NoArvore copia(Arvore a, NoArvore no) {
-		if (no == null)
-			return null;
-		
+
 		NoArvore primCopia = null;
 		NoArvore noCopia = null;
-		
+
 		NoArvore noAtual = no.getPrim();
 		while (noAtual != null) {
 			if (primCopia == null) {
-				primCopia = copia(a,noAtual);
+				primCopia = copia(a, noAtual);
 				noCopia = primCopia;
 			} else {
-				noCopia.setProx(copia(a,noAtual));
+				noCopia.setProx(copia(a, noAtual));
 				noCopia = noCopia.getProx();
 			}
 			noAtual = noAtual.getProx();
